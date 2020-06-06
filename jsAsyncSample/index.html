@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<script>
+    //纯async await风格的sleep、interval、无等待Promise、异常捕捉
+    async function main() {
+        async function sleep(milliseconds, result) {
+            return new Promise((resolve, reject) => {
+                if (typeof milliseconds === 'number' && milliseconds > 0) {
+                    setTimeout(function () {
+                        resolve(result);
+                    }, milliseconds);
+                } else {
+                    reject('Illegal milliseconds');
+                }
+            });
+        }
+
+        async function asyncInterval() {
+            while (1) {
+                let res = await sleep(-1000, 'I am alive.').catch(e => {
+                    console.log('Error: ' + e.message)
+                });
+                if (res) {
+                    console.log(res);
+                }
+            }
+        }
+
+        asyncInterval();
+    }
+
+    main();
+
+
+</script>
+</body>
+</html>
